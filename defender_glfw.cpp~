@@ -23,7 +23,9 @@ void Level::render() const {
 	}
 	glEnd();
 }
-void Ship::render() const {
+
+
+void Ship::render() const{
 	glPushMatrix();
 		glTranslatef(position.x, position.y, 0.0f);
 		glScalef(0.1, 0.08, 1);
@@ -43,8 +45,47 @@ void Ship::render() const {
 		glEnd();
 	glPopMatrix();
 }
-void Bullet::render() const {}
+void Bullet::render() const {
+	glColor3f(0,1,0);
+	glPushMatrix();
+	glTranslatef(position.x, position.y, 0);
+	glScalef(0.04, 0.04, 1);
+
+	glBegin(GL_QUADS);		
+		glVertex3f(0, 0, 0);
+		glVertex3f(1, 0, 0);
+		glVertex3f(1, .1, 0);
+		glVertex3f(0, .1, 0);
+    glEnd();	
+	glPopMatrix();
+}
+
+
 void Bomb::render() const {}
+
+
+void renderRadar() {
+	glPushMatrix();
+		glTranslatef(RADAR_X,RADAR_Y,0.0f);
+		glScalef(RADAR_WIDTH,RADAR_HEIGHT,1);
+		glColor3ub(0,0,0);
+		//radar box
+			glBegin(GL_QUADS);
+				glVertex3f(0.0,0.0,0.0);
+				glVertex3f(1.0,0.0,0.0);
+				glVertex3f(1.0,1.0,0.0);
+				glVertex3f(0.0,1.0,0.0);
+			glEnd();
+			glColor3ub(0,255,0);
+			
+		//scale and draw level
+		glScalef(0.05,1,1);
+			level->render();
+	glPopMatrix();
+
+
+}
+
 void Enemy::render() const {
 
 	//draw enemy
@@ -113,7 +154,11 @@ void render() {
     	glTranslatef(-level->position.x, 0, 0);	//move game objects relative to level movement
     	level->render();
     	ship.render();
+		for(int enemy = 0;enemy < level->enemyLength;++enemy)level->enemies[enemy].render();
+		
 	glPopMatrix();
+	renderRadar();
+		
     glfwSwapBuffers(); 
 }
 void getInput() {
@@ -135,5 +180,6 @@ void getInput() {
 	} else if (glfwGetKey(GLFW_KEY_RIGHT)) {
     	ship.velocity.x = level->velocity.x + 0.5;
 	}
+	//ship.shoot = glfwGetKey(GLFW_KEY_SPACE);
 }
 #endif

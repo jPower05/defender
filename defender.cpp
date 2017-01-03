@@ -1,8 +1,8 @@
 // ===============================================
 // @file   defender.h
-// @author kmurphy
+// @author jpower
 // @practical defender
-// @brief  Header file for PSP+GLFW(OpenGL) dfender game
+// @brief  Header file for PSP+GLFW(OpenGL) defender game
 // ===============================================
 
 #include "defender.h"
@@ -16,10 +16,11 @@ double previousBulletTime, previousBombTime;
 
 Level * level;
 Ship ship;
-bool fire, fireBomb;
-BulletPool shipBullets(1000);
-BulletPool enemyBullets(1000);
-BombPool shipBombs(1000);
+
+//bool fire, fireBomb;
+BulletPool bullets(1000);
+//BulletPool enemyBullets(1000);
+//BombPool shipBombs(1000);
 
 int main() {
 	

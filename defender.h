@@ -1,6 +1,6 @@
 // ===============================================
 // @file   defender.h
-// @author kmurphy
+// @author jpower
 // @practical defender
 // @brief  Header file for PSP+GLFW(OpenGL) defender game
 // ===============================================
@@ -45,11 +45,27 @@
 	const int WINDOW_WIDTH = (int) (480*SCALE);
 	const int WINDOW_HEIGHT = (int) (272*SCALE);
 	const float ASPECT = float(WINDOW_WIDTH)/float(WINDOW_HEIGHT);
+
+
 #endif
+
+
+//Constants for Radar Screen
+
+	const float RADAR_HEIGHT = 0.1;
+	const float RADAR_WIDTH = ASPECT * 0.8;		
+	
+	const float RADAR_X = (ASPECT - RADAR_WIDTH) / 2;
+	const float RADAR_Y = 1.0 - RADAR_HEIGHT;
 
 // state for main game loop
 enum GameState {GAME_INTRO, GAME_START, LEVEL_START, LEVEL_PLAY, LEVEL_OVER, GAME_OVER, GAME_QUIT};
 extern GameState gameState;
+
+const float SHIP_FIRE_DELAY = 0.4f;
+
+const float BULLET_DIE_DELAY = 1.0f;
+const float BULLET_SPEED = 3.0f*0.1f;
 
 using namespace std;
 
@@ -82,9 +98,13 @@ public:
 		state = AWAKE;
 		position = Vector2f(0.02f, 0.5f);
 		velocity = Vector2f(0,0);
+		bool shoot;
+		float firingTime;
 	}
 
 	void render () const;
+	void shootBullet();
+	bool checkCanFire();
 	
 	void update (float dt);
 	
@@ -110,6 +130,7 @@ public:
 		state = ASLEEP;
 		position = Vector2f::ZERO;
 		velocity = Vector2f::ZERO;
+		
 	} 
 	
 	void render () const;
@@ -143,8 +164,8 @@ public:
 	}
 };
 typedef Pool<Bullet> BulletPool;
-extern BulletPool shipBullets;
-extern BulletPool enemyBullets;
+//extern BulletPool shipBullets;
+//extern BulletPool enemyBullets;
 
 
 class Bomb : public Entity {
@@ -179,6 +200,7 @@ extern double previousBulletTime, previousBombTime;
 
 extern bool fire, fireBomb;
 
+
 // ===============================================
 // Function prototypes
 // ===============================================
@@ -187,6 +209,8 @@ int deinitGraphics();
 void render();
 void update();
 void getInput();
+void renderRadar();
+void checkShipCollisionWithGround();
 
 #endif
 

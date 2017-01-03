@@ -2,7 +2,7 @@
 // @file   defender.h
 // @author kmurphy
 // @practical defender
-// @brief  Header file for PSP+GLFW(OpenGL) dfender game
+// @brief  Header file for PSP+GLFW(OpenGL) defender game
 // ===============================================
 
 #include "defender.h"
@@ -16,10 +16,11 @@ double previousBulletTime, previousBombTime;
 
 Level * level;
 Ship ship;
-bool fire, fireBomb;
-BulletPool shipBullets(1000);
-BulletPool enemyBullets(1000);
-BombPool shipBombs(1000);
+
+//bool fire, fireBomb;
+BulletPool bullets(1000);
+//BulletPool enemyBullets(1000);
+//BombPool shipBombs(1000);
 
 int main() {
 	
@@ -32,7 +33,10 @@ int main() {
 	cout << *level;
 	cout << *level;
 	if (level != NULL) { delete level; level = NULL; }
-
+	
+	//give player bullets
+	
+	//shipBullets.allocate();
 //	return 0;
 	
 	while (!done) {
@@ -61,7 +65,6 @@ int main() {
 			case(LEVEL_START): {
 				if (level != NULL) {  delete level; level = NULL; }
 				level = new Level("test");
-				level->velocity.x = 0.1;
 				cout << *level;
 				printf ("Game state changed from LEVEL_START to LEVEL_PLAY\n");
 				gameState = LEVEL_PLAY;
